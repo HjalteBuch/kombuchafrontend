@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export const Navigation = () => {
     return (
-        <div className="Navigation">
+        <div className="navigation">
             <div>
                 <ul class="nav justify-content-center">
                     <li class="nav-item">
