@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { getBatches } from '../services/api';
 import BatchTable from '../components/BatchTable';
 import BatchCreation from '../components/BatchCreation';
 
