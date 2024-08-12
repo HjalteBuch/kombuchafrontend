@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import BatchSelector from "../components/BatchSelector";
 import IngredientCheckBox from "../components/IngredientCheckBox";
 
 const baseUrl = 'http://localhost:5259';
 
 const BottleCreation = () => {
     const [ingredients, setIngredients] = useState([]);
+    const [batches, setBatches] = useState([]);
 
     useEffect(() => {
         const getIngredients = async () => {
@@ -12,6 +14,14 @@ const BottleCreation = () => {
             const ingredients = await response.json();
             setIngredients(ingredients);
         };
+
+        const getBatches = async () => {
+            const response = await fetch(`${baseUrl}/Batch`)
+            const batches = await response.json();
+            setBatches(batches);
+        };
+
+        getBatches();
         getIngredients();
     }, []);
 
@@ -19,6 +29,12 @@ const BottleCreation = () => {
     return (
         <div class="container text-center">
             <form class="bottleCreation">
+                {/* Batch */}
+                <div class="mb-3">
+                    <label for="batch" class="form-label">Batch:</label>
+                    <BatchSelector batches={batches}/>
+                </div>
+
                 {/* TapDate */}
                 <div class="mb-3">
                     <label for="tapDate" class="form-label">Tap date:</label>
