@@ -8,7 +8,6 @@ const Batches = () => {
     const [batches, setBatches] = useState([]);
 
     useEffect(() => {
-        //getBatches().then((response) => setBatches(response.data));
         const fetchBatches = async () => {
             const response = await fetch(`${baseUrl}/Batch`);
             const batches = await response.json();

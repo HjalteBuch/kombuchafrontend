@@ -1,7 +1,24 @@
+import { useEffect, useState } from "react";
+import IngredientCheckBox from "../components/IngredientCheckBox";
+
+const baseUrl = 'http://localhost:5259';
+
 const BottleCreation = () => {
+    const [ingredients, setIngredients] = useState([]);
+
+    useEffect(() => {
+        const getIngredients = async () => {
+            const response = await fetch(`${baseUrl}/Ingredients`);
+            const ingredients = await response.json();
+            setIngredients(ingredients);
+        };
+        getIngredients();
+    }, []);
+
+
     return (
         <div class="container text-center">
-            <form>
+            <form class="bottleCreation">
                 {/* TapDate */}
                 <div class="mb-3">
                     <label for="tapDate" class="form-label">Tap date:</label>
@@ -15,9 +32,9 @@ const BottleCreation = () => {
                 </div>
 
                 {/* Ingredients */}
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="flexCheckDefault" name="ingredients"/>
-                    <label for="ingredients" class="form-label">Ingredients:</label>
+                <label class="form-label">Ingredients:</label>
+                <div class="d-flex flex-wrap">
+                    <IngredientCheckBox ingredients={ingredients} />
                 </div>
 
                 {/* Description */}

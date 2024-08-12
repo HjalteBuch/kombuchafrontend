@@ -15,7 +15,6 @@ const Bottles = () => {
             setBottles(bottles);
         };
         fetchBottles();
-        console.log(bottles);
     }, []);
 
     return (
