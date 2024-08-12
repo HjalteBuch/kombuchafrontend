@@ -25,7 +25,7 @@ const BatchTable = ({ batches }) => {
                     <th>Grams of Tea</th>
                     <th>Steep minutes</th>
                     <th>Description</th>
-                    <th>Delete/Edit</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
