@@ -2,7 +2,7 @@ import React from 'react';
 
 const BatchSelector = ({ batches }) => {
     return (
-            <select class="form-select">
+            <select class="batchId form-select">
                 {batches.map((batch) => (
                     <option value={batch.id}>{batch.startTime}</option>
                 ))}
