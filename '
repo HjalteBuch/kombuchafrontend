@@ -49,15 +49,7 @@ const BottleCreation = () => {
             ingredients: selectedIngredients,
             description: formData.get("description"),
         };
-        const response = fetch(`${baseUrl}/Bottle`, {
-            method: "POST",
-            headers: {
-                'Accept': "application/json, text/plain",
-                'Content-Type': "application/json;charset=UTF-8"
-            },
-            body: JSON.stringify(bottle)
-        });
-        console.log(response);
+        console.log(bottle);
     }
 
     return (
