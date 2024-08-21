@@ -49,6 +49,7 @@ const BottleCreation = () => {
             ingredients: selectedIngredients,
             description: formData.get("description"),
         };
+        console.log(bottle);
         const response = fetch(`${baseUrl}/Bottle`, {
             method: "POST",
             headers: {
