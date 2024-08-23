@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const baseUrl = 'http://localhost:5259';
 
 const BottleCreation = () => {
+    const navigate = useNavigate();
     const [ingredients, setIngredients] = useState([]);
     const [batches, setBatches] = useState([]);
     const [selectedBatch, setSelectedBatch] = useState([]);
@@ -14,12 +16,16 @@ const BottleCreation = () => {
     };
 
     const handleCheckboxChange = (e) => {
-        setSelectedBatch(e.target.value);
-        const { name, checked } = e.target;
-        setSelectedIngredients((prev) => ({
-            ...prev,
-            [name]: checked,
-        }));
+        const { name, checked, value } = e.target;
+        setSelectedIngredients((prev) => {
+            const existingIngredient = prev.find((ingredient) => ingredient.name === name);
+
+            if (existingIngredient) {
+                return prev.map((ingredient) => ingredient.name === name ? { ...ingredient, checked } : ingredient );
+            } else {
+                return [...prev, { name, checked, value }];
+            }
+        });
     };
 
     useEffect(() => {
@@ -39,26 +45,35 @@ const BottleCreation = () => {
         getIngredients();
     }, []);
 
-    const postBottle = (e) => {
-        e.preventDefault();
-        const formData = new FormData(document.querySelector(".bottleCreation"));
-        var bottle = {
-            tapDate: formData.get("tapDate"),
-            daysOfFermentation: formData.get("daysOfFermentation"),
-            batchId: selectedBatch,
-            ingredients: selectedIngredients,
-            description: formData.get("description"),
-        };
-        console.log(bottle);
-        const response = fetch(`${baseUrl}/Bottle`, {
-            method: "POST",
-            headers: {
-                'Accept': "application/json, text/plain",
-                'Content-Type': "application/json;charset=UTF-8"
-            },
-            body: JSON.stringify(bottle)
-        });
-        console.log(response);
+    const postBottle = async (e) => {
+        try {
+            e.preventDefault();
+            const formData = new FormData(document.querySelector(".bottleCreation"));
+            var bottle = {
+                tapDate: formData.get("tapDate"),
+                daysOfFermentation: formData.get("daysOfFermentation"),
+                batchId: selectedBatch,
+                ingredients: selectedIngredients,
+                description: formData.get("description"),
+            };
+            console.log(bottle);
+            const response = await fetch(`${baseUrl}/Bottle`, {
+                method: "POST",
+                headers: {
+                    'Accept': "application/json, text/plain",
+                    'Content-Type': "application/json;charset=UTF-8"
+                },
+                body: JSON.stringify(bottle)
+            });
+
+            if (response.ok) {
+                navigate('/bottles');
+            } else {
+                console.error("Failed to create a bottle for some reason. Check the response.");
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
