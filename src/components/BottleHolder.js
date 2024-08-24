@@ -18,7 +18,6 @@ const BottleHolder = () => {
         } else {
             console.error("Failed to get batches");
         }
-
     };
 
     const fetchBottles = async () => {
@@ -29,7 +28,6 @@ const BottleHolder = () => {
         } else {
             console.error("Failed to get bottles");
         }
-
     };
 
     useEffect(() => {
