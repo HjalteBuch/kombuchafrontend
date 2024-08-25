@@ -1,8 +1,9 @@
 import React from 'react';
 import { Button, Table } from 'react-bootstrap';
 
+const baseUrl = 'http://localhost:5259';
+
 const BatchTable = ({ batches }) => {
-    const baseUrl = 'http://localhost:5259';
     const deleteBatch = (batchId) => {
         const response = fetch(`${baseUrl}/Batch/${batchId}`, {
             method: "DELETE"
