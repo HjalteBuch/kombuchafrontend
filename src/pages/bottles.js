@@ -1,12 +1,12 @@
-import BottleHolderLoading from '../components/BottleHolderLoading';
 import BottleHolder from '../components/BottleHolder';
 import React, { useEffect, useState } from "react";
+import BottleHolderLoading from '../components/BottleHolderLoading';
 
 const baseUrl = 'http://localhost:5259';
 
 const Bottles = () => {
     const [batches, setBatches] = useState([]);
-    const [isLoading, setIsLoading] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     const fetchBatches = async () => {
         const response = await fetch(`${baseUrl}/Batch`);
@@ -16,23 +16,24 @@ const Bottles = () => {
             setIsLoading(false);
         } else {
             console.error("Failed to get batches");
+            setIsLoading(false);
         }
     };
 
     useEffect(() => {
-        setIsLoading(true);
         fetchBatches();
     }, []);
 
 
     return (
-        <div class="container text-center">
-            {isLoading ? (
+        <div className="container text-center">
+            { isLoading ? (
                 <BottleHolderLoading />
             ) : (
-                <BottleHolder batches={batches}/>
-                )
-            }
+                batches.map((batch) => (
+                    <BottleHolder key={batch.id} batch={batch}/>
+                ))
+            )}
         </div>
     );
 };

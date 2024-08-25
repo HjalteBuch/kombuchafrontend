@@ -56,7 +56,6 @@ const BottleCreation = () => {
                 ingredients: selectedIngredients,
                 description: formData.get("description"),
             };
-            console.log(bottle);
             const response = await fetch(`${baseUrl}/Bottle`, {
                 method: "POST",
                 headers: {
@@ -77,12 +76,12 @@ const BottleCreation = () => {
     }
 
     return (
-        <div class="container text-center">
-            <form class="bottleCreation">
+        <div className="container text-center">
+            <form className="bottleCreation">
                 {/* Batch */}
-                <div class="mb-3">
-                    <label for="batchId" class="form-label">Batch:</label>
-                    <select id="batchId" class="form-select" value={selectedBatch} onChange={handleSelectChange}>
+                <div className="mb-3">
+                    <label for="batchId" className="form-label">Batch:</label>
+                    <select id="batchId" className="form-select" value={selectedBatch} onChange={handleSelectChange}>
                         <option value="" disabled>Select a batch</option>
                         {batches.map((batch) => (
                             <option value={batch.id}>{batch.startTime}</option>
@@ -91,32 +90,32 @@ const BottleCreation = () => {
                 </div>
 
                 {/* TapDate */}
-                <div class="mb-3">
-                    <label for="tapDate" class="form-label">Tap date:</label>
-                    <input type="date" class="form-control" id="tapDate" name="tapDate"/>
+                <div className="mb-3">
+                    <label for="tapDate" className="form-label">Tap date:</label>
+                    <input type="date" className="form-control" id="tapDate" name="tapDate"/>
                 </div>
 
                 {/* Days of fermenation */}
-                <div class="mb-3">
-                    <label for="daysOfFermentation" class="form-label">Days of fermentation:</label>
-                    <input type="number" class="form-control" id="daysOfFermentation" name="daysOfFermentation" defaultValue={0}/>
+                <div className="mb-3">
+                    <label for="daysOfFermentation" className="form-label">Days of fermentation:</label>
+                    <input type="number" className="form-control" id="daysOfFermentation" name="daysOfFermentation" defaultValue={0}/>
                 </div>
 
                 {/* Ingredients */}
-                <label class="form-label">Ingredients:</label>
-                <div class="d-flex flex-wrap">
+                <label className="form-label">Ingredients:</label>
+                <div className="d-flex flex-wrap">
                     {ingredients.map((ing) => (
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-control" id={ing.name} name={ing.name} value={ing.id} onChange={handleCheckboxChange}/>
-                            <label for={ing.name} class="form-check-label mx-1">{ing.name}</label>
+                        <div className="mb-3 form-check">
+                            <input type="checkbox" className="form-check-control" id={ing.name} name={ing.name} value={ing.id} onChange={handleCheckboxChange}/>
+                            <label for={ing.name} className="form-check-label mx-1">{ing.name}</label>
                         </div>
                     ))}
                 </div>
 
                 {/* Description */}
-                <div class="mb-3 form-check">
-                    <label for="description" class="form-label">Description:</label>
-                    <input type="text" class="form-control" id="description" name="description"/>
+                <div className="mb-3 form-check">
+                    <label for="description" className="form-label">Description:</label>
+                    <input type="text" className="form-control" id="description" name="description"/>
                 </div>
                 <Button variant="primary" onClick={postBottle}>
                     Add bottle
