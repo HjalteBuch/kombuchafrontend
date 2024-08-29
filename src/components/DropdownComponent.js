@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 
 const baseUrl = 'http://localhost:5259';
 
-const DropdownComponent = ({elements, type}) => {
+const DropdownComponent = ({elements, type, setElements}) => {
     const [addNew, setAddNew] = useState(false);
     const [selectedValue, setSelectedValue] = useState(false);
 
@@ -22,14 +22,14 @@ const DropdownComponent = ({elements, type}) => {
         }
     };
 
-    const postElement = (e) => {
+    const postElement = async (e) => {
         e.preventDefault();
 
         var element = {
             name: newName
         };
 
-        const response = fetch(`${baseUrl}/${type}`, {
+        const response = await fetch(`${baseUrl}/${type}`, {
             method: "POST",
             headers: {
                 'Accept': "application/json, text/plain",
@@ -37,9 +37,9 @@ const DropdownComponent = ({elements, type}) => {
             },
             body: JSON.stringify(element)
         });
-        console.log(response);
         if (response.ok) {
-            // Get new list of elements
+            var newElement = await response.json();
+            setElements([...elements, newElement]);
         }
     }
 
@@ -51,7 +51,7 @@ const DropdownComponent = ({elements, type}) => {
                     <select className="form-select" id={type} onChange={handleSelectChange}>
                         <option defaultValue>Choose a {type} type...</option>
                         { elements.map((element) => (
-                            <option value={element.id} key={element.name}>{element.name}</option>
+                            <option value={element.id} key={element.name + element.id}>{element.name}</option>
                         ))}
                         <option value="addNew">Add a new {type}</option>
                     </select>

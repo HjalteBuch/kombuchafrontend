@@ -60,7 +60,6 @@ export const BatchCreation = () => {
         });
         console.log(response);
     }
-
     return (
         <div className="batchCreation">
             <Button onClick={loadBatchForm}>Create new Batch</Button>
@@ -76,8 +75,8 @@ export const BatchCreation = () => {
                             <input type="date" className="form-control" id="startTime" name="startTime"/>
                         </div>
 
-                        <DropdownComponent elements={teas} type="Tea"/>
-                        <DropdownComponent elements={sugars} type="Sugar"/>
+                        <DropdownComponent elements={teas} setElements={setTeas} type="Tea"/>
+                        <DropdownComponent elements={sugars} setElements={setSugars} type="Sugar"/>
 
                         <div className="mb-3">
                             <label htmlFor="steepMinutes" className="form-label">Steep minutes:</label>
