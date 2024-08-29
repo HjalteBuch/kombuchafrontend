@@ -2,13 +2,39 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
+const baseUrl = 'http://localhost:5259';
+
 export const BatchCreation = () => {
-    const [show, setShow] = useState(false);
+    const [showBatchForm, setShowBatchForm] = useState(false);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const [teas, setTeas] = useState([]);
+    const getTeas = async () => {
+        const response = await fetch(`${baseUrl}/Tea`);
+        if (response.ok) {
+            const teas = await response.json();
+            setTeas(teas);
+        }
+    };
 
-    const baseUrl = 'http://localhost:5259';
+    const [sugars, setSugars] = useState([]);
+    const getSugars = async () => {
+        const response = await fetch(`${baseUrl}/Sugar`);
+        if (response.ok) {
+            const sugars = await response.json();
+            setSugars(sugars);
+        }
+    };
+
+    const handleCloseBatchForm = () => setShowBatchForm(false);
+    const handleShowBatchForm = () => setShowBatchForm(true);
+
+    const loadBatchForm = (e) => {
+        e.preventDefault();
+        handleShowBatchForm();
+        getTeas();
+        getSugars();
+    };
+
     const postBatch = (e) => {
         e.preventDefault();
         const formData = new FormData(document.querySelector(".batchform"));
@@ -36,9 +62,9 @@ export const BatchCreation = () => {
 
     return (
         <div className="batchCreation">
-            <Button onClick={handleShow}>Create new Batch</Button>
+            <Button onClick={loadBatchForm}>Create new Batch</Button>
 
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={showBatchForm} onHide={handleCloseBatchForm}>
                 <Modal.Header closeButton>
                     <Modal.Title>Batch info:</Modal.Title>
                 </Modal.Header>
@@ -89,7 +115,7 @@ export const BatchCreation = () => {
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="secondary" onClick={handleCloseBatchForm}>
                         Cancel
                     </Button>
                     <Button variant="primary" onClick={postBatch}>
