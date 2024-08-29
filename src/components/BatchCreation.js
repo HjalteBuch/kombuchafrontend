@@ -72,32 +72,32 @@ export const BatchCreation = () => {
                 <Modal.Body>
                     <form onSubmit={postBatch} className="batchform">
                         <div className="mb-3">
-                            <label for="startTime" className="form-label">Date of creation:</label>
+                            <label htmlFor="startTime" className="form-label">Date of creation:</label>
                             <input type="date" className="form-control" id="startTime" name="startTime"/>
                         </div>
 
-                        <DropdownComponent />
+                        <DropdownComponent elements={teas}/>
                         <div className="mb-3">
                             <div className="row">
                                 <div className="col">
-                                    <label for="tea" className="form-label">Tea:</label>
+                                    <label htmlFor="tea" className="form-label">Tea:</label>
                                     <select className="form-select" id="tea" name="teaId">
                                         <option selected value="1">Ceylon, Colombo</option>
                                     </select>
                                 </div>
                                 <div className="col">
-                                    <label for="gramsOfTea" className="form-label">Grams of tea:</label>
+                                    <label htmlFor="gramsOfTea" className="form-label">Grams of tea:</label>
                                     <input type="number" className="form-control" id="gramsOfTea" name="gramsOfTea"/>
                                 </div>
                             </div>
                         </div>
                         <div className="mb-3">
-                            <label for="steepMinutes" className="form-label">Steep minutes:</label>
+                            <label htmlFor="steepMinutes" className="form-label">Steep minutes:</label>
                             <input type="number" className="form-control" id="steepMinutes" name="steepMinutes"/>
                         </div>
                         <div className="mb-3">
-                            <label for="description" className="form-label">Description:</label>
-                            <textArea className="form-control" id="description" name="description"/>
+                            <label htmlFor="description" className="form-label">Description:</label>
+                            <textarea className="form-control" id="description" name="description"/>
                         </div>
                     </form>
                 </Modal.Body>
