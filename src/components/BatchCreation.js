@@ -76,21 +76,9 @@ export const BatchCreation = () => {
                             <input type="date" className="form-control" id="startTime" name="startTime"/>
                         </div>
 
-                        <DropdownComponent elements={teas}/>
-                        <div className="mb-3">
-                            <div className="row">
-                                <div className="col">
-                                    <label htmlFor="tea" className="form-label">Tea:</label>
-                                    <select className="form-select" id="tea" name="teaId">
-                                        <option selected value="1">Ceylon, Colombo</option>
-                                    </select>
-                                </div>
-                                <div className="col">
-                                    <label htmlFor="gramsOfTea" className="form-label">Grams of tea:</label>
-                                    <input type="number" className="form-control" id="gramsOfTea" name="gramsOfTea"/>
-                                </div>
-                            </div>
-                        </div>
+                        <DropdownComponent elements={teas} type="Tea"/>
+                        <DropdownComponent elements={sugars} type="Sugar"/>
+
                         <div className="mb-3">
                             <label htmlFor="steepMinutes" className="form-label">Steep minutes:</label>
                             <input type="number" className="form-control" id="steepMinutes" name="steepMinutes"/>
