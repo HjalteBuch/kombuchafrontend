@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "react-bootstrap";
 
 const baseUrl = 'http://localhost:5259';
 
-const DropdownComponent = ({type, setSelectedElement, setAmountOfSelectedElement}) => {
-    // Move these functions to dropdown component
-    const [elements, setElements] = useState([]);
+const DropdownComponent = ({elements, type, setElements, selectedElement, setSelectedElement}) => {
     const [addNew, setAddNew] = useState(false);
 
     const [newName, setNewName] = useState('');
@@ -18,18 +16,10 @@ const DropdownComponent = ({type, setSelectedElement, setAmountOfSelectedElement
         if (selectedValue === 'addNew') {
             setAddNew(true);
         } else {
+            setSelectedElement(selectedValue);
+            console.log(selectedElement);
             setAddNew(false);
         }
-        if (isNaN(selectedValue)) {
-            setSelectedElement(null);
-        } else {
-            setSelectedElement(selectedValue);
-        }
-    };
-
-    const handleSelectAmountChange = (e) => {
-        const selectedValue = e.target.value;
-        setAmountOfSelectedElement(selectedValue);
     };
 
     const postElement = async (e) => {
@@ -52,17 +42,6 @@ const DropdownComponent = ({type, setSelectedElement, setAmountOfSelectedElement
             setElements([...elements, newElement]);
         }
     }
-    useEffect(() => {
-        const getElements = async () => {
-            const response = await fetch(`${baseUrl}/${type}`);
-            if (response.ok) {
-                const elements = await response.json();
-                setElements(elements);
-            }
-        };
-
-        getElements();
-    }, [type]);
 
     return (
         <div className="mb-3">
@@ -80,7 +59,7 @@ const DropdownComponent = ({type, setSelectedElement, setAmountOfSelectedElement
                 { !addNew ? (
                     <div className="col">
                         <label htmlFor={`gramsOf${type}`} className="form-label">Grams of {type}:</label>
-                        <input type="number" className="form-control" id={`gramsOf${type}`} onChange={handleSelectAmountChange}/>
+                        <input type="number" className="form-control" id={`gramsOf${type}`}/>
                     </div>
                 ) : (
                         <div className="col">

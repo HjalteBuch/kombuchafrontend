@@ -6,25 +6,12 @@ import DropdownComponent from './DropdownComponent';
 const baseUrl = 'http://localhost:5259';
 
 export const BatchCreation = () => {
+    const [tea, setTea] = useState();
+    const [teaGrams, setTeaGrams] = useState();
+    const [sugar, setSugar] = useState();
+    const [sugarGrams, setSugarGrams] = useState();
     const [showBatchForm, setShowBatchForm] = useState(false);
 
-    const [teas, setTeas] = useState([]);
-    const getTeas = async () => {
-        const response = await fetch(`${baseUrl}/Tea`);
-        if (response.ok) {
-            const teas = await response.json();
-            setTeas(teas);
-        }
-    };
-
-    const [sugars, setSugars] = useState([]);
-    const getSugars = async () => {
-        const response = await fetch(`${baseUrl}/Sugar`);
-        if (response.ok) {
-            const sugars = await response.json();
-            setSugars(sugars);
-        }
-    };
 
     const handleCloseBatchForm = () => setShowBatchForm(false);
     const handleShowBatchForm = () => setShowBatchForm(true);
@@ -32,25 +19,23 @@ export const BatchCreation = () => {
     const loadBatchForm = (e) => {
         e.preventDefault();
         handleShowBatchForm();
-        getTeas();
-        getSugars();
     };
 
-    const postBatch = (e) => {
+    const postBatch = async (e) => {
         e.preventDefault();
         const formData = new FormData(document.querySelector(".batchform"));
 
         var batch = {
             startTime: formData.get("startTime"),
-            sugarId: formData.get("sugarId"),
-            gramsOfSugar: formData.get("gramsOfSugar"),
-            teaId: formData.get("teaId"),
-            gramsOfTea: formData.get("gramsOfTea"),
+            sugarId: sugar,
+            gramsOfSugar: sugarGrams,
+            teaId: tea,
+            gramsOfTea: teaGrams,
             steepMinutes: formData.get("steepMinutes"),
             description: formData.get("description"),
         };
 
-        const response = fetch(`${baseUrl}/Batch`, {
+        const response = await fetch(`${baseUrl}/Batch`, {
             method: "POST",
             headers: {
                 'Accept': "application/json, text/plain",
@@ -58,8 +43,11 @@ export const BatchCreation = () => {
             },
             body: JSON.stringify(batch)
         });
-        console.log(response);
+        if (response.ok) {
+            window.location.reload();
+        }
     }
+
     return (
         <div className="batchCreation">
             <Button onClick={loadBatchForm}>Create new Batch</Button>
@@ -75,8 +63,8 @@ export const BatchCreation = () => {
                             <input type="date" className="form-control" id="startTime" name="startTime"/>
                         </div>
 
-                        <DropdownComponent elements={teas} setElements={setTeas} type="Tea"/>
-                        <DropdownComponent elements={sugars} setElements={setSugars} type="Sugar"/>
+                        <DropdownComponent type="Tea" selectedElement={tea} setSelectedElement={setTea} setAmountOfSelectedElement={setTeaGrams}/>
+                        <DropdownComponent type="Sugar" selectedElement={sugar} setSelectedElement={setSugar} setAmountOfSelectedElement={setSugarGrams}/>
 
                         <div className="mb-3">
                             <label htmlFor="steepMinutes" className="form-label">Steep minutes:</label>
