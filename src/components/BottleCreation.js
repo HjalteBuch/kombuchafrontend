@@ -1,10 +1,13 @@
 import { Button, Modal } from "react-bootstrap";
 import { useState } from 'react';
+import DropdownComponent from "./DropdownComponent";
 
 const baseUrl = 'http://localhost:5259';
 
 export const BottleCreation = ({batch, ingredients, getIngredients}) => {
-    const [selectedIngredients, setSelectedIngredients] = useState([]);
+    const [selectedIngredient, setSelectedIngredient] = useState();
+    const [ingredientAmount, setIngredientAmount] = useState();
+    const [ingredientsInBottle, setIngredientsInBottle] = useState([]);
 
     const [showBottleForm, setShowBottleForm] = useState(false);
     const handleCloseBottleForm = () => setShowBottleForm(false);
@@ -23,7 +26,7 @@ export const BottleCreation = ({batch, ingredients, getIngredients}) => {
                 tapDate: formData.get("tapDate"),
                 daysOfFermentation: formData.get("daysOfFermentation"),
                 batchId: batch.id,
-                ingredients: selectedIngredients,
+                ingredients: ingredientsInBottle,
                 description: formData.get("description"),
             };
             const response = await fetch(`${baseUrl}/Bottle`, {
@@ -61,32 +64,30 @@ export const BottleCreation = ({batch, ingredients, getIngredients}) => {
 
                         {/* TapDate */}
                         <div className="mb-3">
-                            <label for="tapDate" className="form-label">Tap date:</label>
+                            <label htmlFor="tapDate" className="form-label">Tap date:</label>
                             <input type="date" className="form-control" id="tapDate" name="tapDate"/>
                         </div>
 
                         {/* Days of fermenation */}
                         <div className="mb-3">
-                            <label for="daysOfFermentation" className="form-label">Days of fermentation:</label>
+                            <label htmlFor="daysOfFermentation" className="form-label">Days of fermentation:</label>
                             <input type="number" className="form-control" id="daysOfFermentation" name="daysOfFermentation" defaultValue={0}/>
                         </div>
 
                         {/* Ingredients */}
-                        <label className="form-label">Ingredients:</label>
-                        <div className="d-flex flex-wrap">
-                            {ingredients.map((ing) => (
-                                <p>{ing.name}</p>
-                            ))}
-                        </div>
+                        <DropdownComponent type={"Ingredients"} setSelectedElement={setSelectedIngredient} setAmountOfSelectedElement={setIngredientAmount} />
+                        <Button className="ms-1 my-4" variant="info">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+                                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                            </svg>
+                        </Button>
 
                         {/* Description */}
-                        <div className="mb-3 form-check">
-                            <label for="description" className="form-label">Description:</label>
+                        <div className="mb-3">
+                            <label htmlFor="description" className="form-label">Description:</label>
                             <input type="text" className="form-control" id="description" name="description"/>
                         </div>
-                        <Button variant="primary" onClick={postBottle}>
-                            Add bottle
-                        </Button>
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
