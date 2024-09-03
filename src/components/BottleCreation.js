@@ -1,5 +1,5 @@
 import { Button, Modal } from "react-bootstrap";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DropdownComponent from "./DropdownComponent";
 
 const baseUrl = 'http://localhost:5259';
@@ -47,6 +47,26 @@ export const BottleCreation = ({batch, ingredients, getIngredients}) => {
         }
     }
 
+    const removeFromIngredientsInBottle = (id) => {
+        const updated = ingredientsInBottle.filter(ing => ing.id !== id);
+        setIngredientsInBottle(updated);
+    }
+
+    const addIngredientsInBottle = () => {
+        if (ingredientsInBottle.some((i) => i.id === selectedIngredient)) {
+            return;
+        }
+        if (ingredients.length <= 0) {
+            return;
+        }
+        const ingredient = ingredients.find((ing) => ing.id.toString() === selectedIngredient);
+        setIngredientsInBottle([...ingredientsInBottle, ingredient]);
+    }
+
+    useEffect(() => {
+
+    }, []);
+
     return (
         <div className="batchCreation">
             <Button onClick={loadBottleForm}>Create new Bottle</Button>
@@ -77,8 +97,8 @@ export const BottleCreation = ({batch, ingredients, getIngredients}) => {
                         {/* Ingredients */}
                         <DropdownComponent type={"Ingredients"} setSelectedElement={setSelectedIngredient} setAmountOfSelectedElement={setIngredientAmount} />
                         <div className="col d-flex">
-                            <Button className="ms-1" variant="info">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+                            <Button className="ms-1" variant="info" onClick={addIngredientsInBottle}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus-square" viewBox="0 0 16 16">
                                     <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
                                     <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
                                 </svg>
@@ -86,12 +106,14 @@ export const BottleCreation = ({batch, ingredients, getIngredients}) => {
                             <div className="container">
                                 <h3>Selected Ingredients:</h3>
                                 <div className="p-2 d-flex flex-wrap border bg-dark-subtle rounded">
-                                    <div className="d-flex bg-body-secondary rounded-pill">
-                                        <span>Cherry</span>
-                                        <div className="badge-pill badge-dark">
-                                            <Button className="ml-2" variant="close"/>
+                                    { ingredientsInBottle.map((ing) => (
+                                        <div key={`${ing.name}+${ing.key}`} className="mx-1 d-flex bg-body-secondary rounded-pill">
+                                            <span>{ing.name}</span>
+                                            <div className="badge-pill badge-dark">
+                                                <Button className="ml-2" variant="close" onClick={() => removeFromIngredientsInBottle(ing.id)}/>
+                                            </div>
                                         </div>
-                                    </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
