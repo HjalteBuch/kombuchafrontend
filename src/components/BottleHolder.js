@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import BottleCardLoader from "./BottleCardLoader";
 import BottleCard from "./BottleCard";
-import { Container, Row, Button } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 import BottleHolderLoading from "./BottleHolderLoading";
+import BottleCreation from "./BottleCreation";
 
 const baseUrl = 'http://localhost:5259';
 
@@ -12,6 +12,7 @@ const BottleHolder = ({batch}) => {
     const [bottles, setBottles] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isBottles, setIsBottles] = useState(false);
+    const [ingredients, setIngredients] = useState([]);
 
     const fetchBottlesFromBatchId = async (batchId) => {
         const response = await fetch(`${baseUrl}/Bottle/ByBatchId/${batchId}`);
@@ -27,8 +28,18 @@ const BottleHolder = ({batch}) => {
             console.error("Failed to get bottles");
         }
     };
+
+    const getIngredients = async () => {
+        const response = await fetch(`${baseUrl}/Ingredients`);
+        console.log(response);
+        if (response.ok) {
+            setIngredients(await response.json());
+        }
+    }
+
     useEffect(() => {
         fetchBottlesFromBatchId(batch.id);
+        getIngredients();
     }, [batch.id]);
 
     return (
@@ -39,9 +50,7 @@ const BottleHolder = ({batch}) => {
                     <Container className="border-top mt-5">
                         <h1>{batch.startTime}</h1>
                         <p>Batch ID: {batch.id}</p>
-                        <Link to="/BottleCreation">
-                            <Button className="btn btn-primary">Add bottle</Button>
-                        </Link>
+                        <BottleCreation batch={batch} ingredients={ingredients} getIngredients={getIngredients}/>
                         <Container className="mt-4">
                             <Row className="justify-content-center">
                                 { isBottles ? (
