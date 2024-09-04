@@ -4,7 +4,7 @@ import DropdownComponent from "./DropdownComponent";
 
 const baseUrl = 'http://localhost:5259';
 
-export const BottleCreation = ({batch, ingredients}) => {
+export const BottleCreation = ({batch, ingredients, getIngredients}) => {
     const [selectedIngredient, setSelectedIngredient] = useState();
     const [ingredientAmount, setIngredientAmount] = useState();
     const [ingredientsInBottle, setIngredientsInBottle] = useState([]);
@@ -52,19 +52,19 @@ export const BottleCreation = ({batch, ingredients}) => {
         setIngredientsInBottle(updated);
     }
 
-    const addIngredientsInBottle = () => {
+    const addIngredientsInBottle = async () => {
         if (ingredientsInBottle.some((i) => i.id.toString() === selectedIngredient)) {
             return;
         }
         if (ingredients.length <= 0) {
             return;
         }
+        await getIngredients();
         const ingredient = ingredients.find((ing) => ing.id.toString() === selectedIngredient);
         setIngredientsInBottle([...ingredientsInBottle, ingredient]);
     }
 
     useEffect(() => {
-
     }, []);
 
     return (

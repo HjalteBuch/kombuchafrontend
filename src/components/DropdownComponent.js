@@ -49,20 +49,22 @@ const DropdownComponent = ({type, setSelectedElement, setAmountOfSelectedElement
         });
         if (response.ok) {
             var newElement = await response.json();
-            setElements([...elements, newElement]);
+            await getElements();
+            document.getElementById(type).value=newElement.id.toString();
         }
     }
-    useEffect(() => {
-        const getElements = async () => {
-            const response = await fetch(`${baseUrl}/${type}`);
-            if (response.ok) {
-                const elements = await response.json();
-                setElements(elements);
-            }
-        };
 
+    const getElements = async () => {
+        const response = await fetch(`${baseUrl}/${type}`);
+        if (response.ok) {
+            const elements = await response.json();
+            setElements(elements);
+        }
+    };
+
+    useEffect(() => {
         getElements();
-    }, [type]);
+    }, []);
 
     return (
         <div className="mb-3">
