@@ -26,8 +26,11 @@ const DropdownComponent = ({type, elements, getElements, setSelectedElement, set
     };
 
     const handleSelectAmountChange = (e) => {
-        const selectedValue = e.target.value;
+        var selectedValue = e.target.value;
         // if amount is not set, handle it
+        if (selectedValue === "" || selectedValue === undefined) {
+            selectedValue = "0";
+        }
         setAmountOfSelectedElement(selectedValue);
     };
 

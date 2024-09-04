@@ -56,19 +56,24 @@ export const BottleCreation = ({batch}) => {
     }
 
     const removeFromIngredientsInBottle = (id) => {
-        const updated = ingredientsInBottle.filter(ing => ing.id !== id);
+        const updated = ingredientsInBottle.filter(ing => ing.ingredient.id !== id);
         setIngredientsInBottle(updated);
     }
 
     const addIngredientsInBottle = async () => {
-        if (ingredientsInBottle.some((i) => i.id.toString() === selectedIngredient)) {
+        if (ingredientsInBottle.some((i) => i.ingredient.id.toString() === selectedIngredient)) {
             return;
         }
         if (ingredients.length <= 0) {
             return;
         }
         const ingredient = ingredients.find((ing) => ing.id.toString() === selectedIngredient);
-        setIngredientsInBottle([...ingredientsInBottle, ingredient]);
+        const bottleIngredient = {
+            ingredient: ingredient,
+            grams: ingredientAmount
+        }
+        setIngredientsInBottle([...ingredientsInBottle, bottleIngredient]);
+        console.log(ingredientsInBottle);
     }
 
     useEffect(() => {
@@ -115,10 +120,10 @@ export const BottleCreation = ({batch}) => {
                                 <h3>Selected Ingredients:</h3>
                                 <div className="p-2 d-flex flex-wrap border bg-dark-subtle rounded">
                                     { ingredientsInBottle.map((ing) => (
-                                        <div key={`${ing.name}+${ing.key}`} className="mx-1 d-flex bg-body-secondary rounded-pill">
-                                            <span>{ing.name}</span>
+                                        <div key={`${ing.ingredient.name}+${ing.ingredient.key}`} className="mx-1 d-flex bg-body-secondary rounded-pill">
+                                            <span>{ing.grams}g {ing.ingredient.name}</span>
                                             <div className="badge-pill badge-dark">
-                                                <Button className="ml-2" variant="close" onClick={() => removeFromIngredientsInBottle(ing.id)}/>
+                                                <Button className="ml-2" variant="close" onClick={() => removeFromIngredientsInBottle(ing.ingredient.id)}/>
                                             </div>
                                         </div>
                                     ))}
