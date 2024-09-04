@@ -31,7 +31,6 @@ const BottleHolder = ({batch}) => {
 
     const getIngredients = async () => {
         const response = await fetch(`${baseUrl}/Ingredients`);
-        console.log(response);
         if (response.ok) {
             setIngredients(await response.json());
         }
