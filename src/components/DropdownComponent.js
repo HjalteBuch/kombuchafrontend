@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "react-bootstrap";
 
 const baseUrl = 'http://localhost:5259';
 
-const DropdownComponent = ({type, setSelectedElement, setAmountOfSelectedElement}) => {
-    // Move these functions to dropdown component
-    const [elements, setElements] = useState([]);
+const DropdownComponent = ({type, elements, getElements, setSelectedElement, setAmountOfSelectedElement}) => {
     const [addNew, setAddNew] = useState(false);
 
     const [newName, setNewName] = useState('');
@@ -29,6 +27,7 @@ const DropdownComponent = ({type, setSelectedElement, setAmountOfSelectedElement
 
     const handleSelectAmountChange = (e) => {
         const selectedValue = e.target.value;
+        // if amount is not set, handle it
         setAmountOfSelectedElement(selectedValue);
     };
 
@@ -53,18 +52,6 @@ const DropdownComponent = ({type, setSelectedElement, setAmountOfSelectedElement
             document.getElementById(type).value=newElement.id.toString();
         }
     }
-
-    const getElements = async () => {
-        const response = await fetch(`${baseUrl}/${type}`);
-        if (response.ok) {
-            const elements = await response.json();
-            setElements(elements);
-        }
-    };
-
-    useEffect(() => {
-        getElements();
-    }, []);
 
     return (
         <div className="mb-3">

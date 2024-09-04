@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import DropdownComponent from './DropdownComponent';
@@ -12,6 +12,21 @@ export const BatchCreation = () => {
     const [sugarGrams, setSugarGrams] = useState();
     const [showBatchForm, setShowBatchForm] = useState(false);
 
+    const [teas, setTeas] = useState([]);
+    const getTeas = async () => {
+        const response = await fetch(`${baseUrl}/Tea`);
+        if (response.ok) {
+            setTeas(await response.json());
+        }
+    }
+
+    const [sugars, setSugars] = useState([]);
+    const getSugars = async () => {
+        const response = await fetch(`${baseUrl}/Sugar`);
+        if (response.ok) {
+            setSugars(await response.json());
+        }
+    }
 
     const handleCloseBatchForm = () => setShowBatchForm(false);
     const handleShowBatchForm = () => setShowBatchForm(true);
@@ -48,6 +63,11 @@ export const BatchCreation = () => {
         }
     }
 
+    useEffect(() => {
+        getTeas();
+        getSugars();
+    }, []);
+
     return (
         <div className="batchCreation">
             <Button onClick={loadBatchForm}>Create new Batch</Button>
@@ -63,8 +83,8 @@ export const BatchCreation = () => {
                             <input type="date" className="form-control" id="startTime" name="startTime"/>
                         </div>
 
-                        <DropdownComponent type="Tea" selectedElement={tea} setSelectedElement={setTea} setAmountOfSelectedElement={setTeaGrams}/>
-                        <DropdownComponent type="Sugar" selectedElement={sugar} setSelectedElement={setSugar} setAmountOfSelectedElement={setSugarGrams}/>
+                        <DropdownComponent type={"Tea"} elements={teas} getElements={getTeas} selectedElement={tea} setSelectedElement={setTea} setAmountOfSelectedElement={setTeaGrams}/>
+                        <DropdownComponent type={"Sugar"} elements={sugars} getElements={getSugars} selectedElement={sugar} setSelectedElement={setSugar} setAmountOfSelectedElement={setSugarGrams}/>
 
                         <div className="mb-3">
                             <label htmlFor="steepMinutes" className="form-label">Steep minutes:</label>

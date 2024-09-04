@@ -4,7 +4,7 @@ import DropdownComponent from "./DropdownComponent";
 
 const baseUrl = 'http://localhost:5259';
 
-export const BottleCreation = ({batch, ingredients, getIngredients}) => {
+export const BottleCreation = ({batch}) => {
     const [selectedIngredient, setSelectedIngredient] = useState();
     const [ingredientAmount, setIngredientAmount] = useState();
     const [ingredientsInBottle, setIngredientsInBottle] = useState([]);
@@ -12,6 +12,14 @@ export const BottleCreation = ({batch, ingredients, getIngredients}) => {
     const [showBottleForm, setShowBottleForm] = useState(false);
     const handleCloseBottleForm = () => setShowBottleForm(false);
     const handleShowBottleForm = () => setShowBottleForm(true);
+
+    const [ingredients, setIngredients] = useState([]);
+    const getIngredients = async () => {
+        const response = await fetch(`${baseUrl}/Ingredients`);
+        if (response.ok) {
+            setIngredients(await response.json());
+        }
+    }
 
     const loadBottleForm = (e) => {
         e.preventDefault();
@@ -26,7 +34,7 @@ export const BottleCreation = ({batch, ingredients, getIngredients}) => {
                 tapDate: formData.get("tapDate"),
                 daysOfFermentation: formData.get("daysOfFermentation"),
                 batchId: batch.id,
-                ingredients: ingredientsInBottle,
+                bottleIngredients: ingredientsInBottle,
                 description: formData.get("description"),
             };
             const response = await fetch(`${baseUrl}/Bottle`, {
@@ -59,12 +67,12 @@ export const BottleCreation = ({batch, ingredients, getIngredients}) => {
         if (ingredients.length <= 0) {
             return;
         }
-        await getIngredients();
         const ingredient = ingredients.find((ing) => ing.id.toString() === selectedIngredient);
         setIngredientsInBottle([...ingredientsInBottle, ingredient]);
     }
 
     useEffect(() => {
+        getIngredients();
     }, []);
 
     return (
@@ -95,7 +103,7 @@ export const BottleCreation = ({batch, ingredients, getIngredients}) => {
                         </div>
 
                         {/* Ingredients */}
-                        <DropdownComponent type={"Ingredients"} setSelectedElement={setSelectedIngredient} setAmountOfSelectedElement={setIngredientAmount} />
+                        <DropdownComponent type={"Ingredients"} elements={ingredients} getElements={getIngredients} setSelectedElement={setSelectedIngredient} setAmountOfSelectedElement={setIngredientAmount} />
                         <div className="col d-flex">
                             <Button className="ms-1" variant="info" onClick={addIngredientsInBottle}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus-square" viewBox="0 0 16 16">

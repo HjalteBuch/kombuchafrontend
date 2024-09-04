@@ -12,7 +12,6 @@ const BottleHolder = ({batch}) => {
     const [bottles, setBottles] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isBottles, setIsBottles] = useState(false);
-    const [ingredients, setIngredients] = useState([]);
 
     const fetchBottlesFromBatchId = async (batchId) => {
         const response = await fetch(`${baseUrl}/Bottle/ByBatchId/${batchId}`);
@@ -29,16 +28,8 @@ const BottleHolder = ({batch}) => {
         }
     };
 
-    const getIngredients = async () => {
-        const response = await fetch(`${baseUrl}/Ingredients`);
-        if (response.ok) {
-            setIngredients(await response.json());
-        }
-    }
-
     useEffect(() => {
         fetchBottlesFromBatchId(batch.id);
-        getIngredients();
     }, [batch.id]);
 
     return (
@@ -49,7 +40,7 @@ const BottleHolder = ({batch}) => {
                     <Container className="border-top mt-5">
                         <h1>{batch.startTime}</h1>
                         <p>Batch ID: {batch.id}</p>
-                        <BottleCreation batch={batch} ingredients={ingredients} getIngredients={getIngredients}/>
+                        <BottleCreation batch={batch}/>
                         <Container className="mt-4">
                             <Row className="justify-content-center">
                                 { isBottles ? (
