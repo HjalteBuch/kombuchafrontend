@@ -4,7 +4,7 @@ import DropdownComponent from "./DropdownComponent";
 
 const baseUrl = 'http://localhost:5259';
 
-export const BottleCreation = ({batch}) => {
+export const BottleCreation = ({batch, fetchBottles}) => {
     const [selectedIngredient, setSelectedIngredient] = useState();
     const [ingredientAmount, setIngredientAmount] = useState();
     const [ingredientsInBottle, setIngredientsInBottle] = useState([]);
@@ -47,6 +47,7 @@ export const BottleCreation = ({batch}) => {
             });
 
             if (response.ok) {
+                fetchBottles(batch.id);
             } else {
                 console.error("Failed to create a bottle for some reason. Check the response.");
             }

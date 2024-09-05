@@ -40,7 +40,7 @@ const BottleHolder = ({batch}) => {
                     <Container className="border-top mt-5">
                         <h1>{batch.startTime}</h1>
                         <p>Batch ID: {batch.id}</p>
-                        <BottleCreation batch={batch}/>
+                        <BottleCreation batch={batch} fetchBottles={fetchBottlesFromBatchId}/>
                         <Container className="mt-4">
                             <Row className="justify-content-center">
                                 { isBottles ? (

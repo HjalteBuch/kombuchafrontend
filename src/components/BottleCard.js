@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Card, Button, Modal } from 'react-bootstrap';
 
 const baseUrl = 'http://localhost:5259';
@@ -70,9 +70,9 @@ const BottleCard = ({bottle}) => {
                     </Card.Text>
                     <Card.Text>Description: {description}</Card.Text>
                     <ul className="list-group">
-                        { bottle.ingredients.map((ingredient) => {
+                        { bottle.bottleIngredients.map((bi) => {
                             return (
-                                <li className="list-group-item" key={ingredient.id}>{ingredient.name}</li>
+                                <li className="list-group-item" key={bi.ingredient.id}>{bi.grams}g {bi.ingredient.name}</li>
                             );
                         })}
                     </ul>
