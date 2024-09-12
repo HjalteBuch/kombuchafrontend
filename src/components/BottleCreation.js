@@ -2,7 +2,7 @@ import { Button, Modal } from "react-bootstrap";
 import { useEffect, useState } from 'react';
 import DropdownComponent from "./DropdownComponent";
 
-const baseUrl = 'http://localhost:5259';
+const baseUrl = process.env.REACT_APP_BACKEND_URL;
 
 export const BottleCreation = ({batch, fetchBottles}) => {
     const [selectedIngredient, setSelectedIngredient] = useState();

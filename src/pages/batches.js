@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import BatchTable from '../components/BatchTable';
 import BatchCreation from '../components/BatchCreation';
 
-const baseUrl = 'http://localhost:5259';
+const baseUrl = process.env.REACT_APP_BACKEND_URL;
 
 const Batches = () => {
     const [batches, setBatches] = useState([]);

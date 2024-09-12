@@ -5,7 +5,7 @@ import { Container, Row } from 'react-bootstrap';
 import BottleHolderLoading from "./BottleHolderLoading";
 import BottleCreation from "./BottleCreation";
 
-const baseUrl = 'http://localhost:5259';
+const baseUrl = process.env.REACT_APP_BACKEND_URL;
 
 const BottleHolder = ({batch}) => {
     const cardPlaceHolders = Array.from({ length: 5 });

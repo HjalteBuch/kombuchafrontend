@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 
-const baseUrl = 'http://localhost:5259';
+const baseUrl = process.env.REACT_APP_BACKEND_URL;
 
 const DropdownComponent = ({type, elements, getElements, setSelectedElement, setAmountOfSelectedElement}) => {
     const [addNew, setAddNew] = useState(false);

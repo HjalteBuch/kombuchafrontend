@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Table } from 'react-bootstrap';
 
-const baseUrl = 'http://localhost:5259';
+const baseUrl = process.env.REACT_APP_BACKEND_URL;
 
 const BatchTable = ({ batches }) => {
     const deleteBatch = (batchId) => {

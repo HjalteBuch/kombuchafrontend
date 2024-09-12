@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:5259/';
+const baseUrl = process.env.REACT_APP_BACKEND_URL;
 
 export const getBatches = () => 
     fetch(baseUrl + "Batch", {

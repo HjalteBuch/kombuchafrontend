@@ -2,7 +2,7 @@ import BottleHolder from '../components/BottleHolder';
 import React, { useEffect, useState } from "react";
 import BottleHolderLoading from '../components/BottleHolderLoading';
 
-const baseUrl = 'http://localhost:5259';
+const baseUrl = process.env.REACT_APP_BACKEND_URL;
 
 const Bottles = () => {
     const [batches, setBatches] = useState([]);

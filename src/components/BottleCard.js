@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Card, Button, Modal } from 'react-bootstrap';
 
-const baseUrl = 'http://localhost:5259';
+const baseUrl = process.env.REACT_APP_BACKEND_URL;
 
 const BottleCard = ({bottle}) => {
     const [isFermentationDaysSet, setIsFermentationDaysSet] = useState(false);
