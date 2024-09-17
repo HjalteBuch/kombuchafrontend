@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import StarRating from '../components/StarRating';
 import BottleCard from '../components/BottleCard';
 import BottleCardLoader from "../components/BottleCardLoader";
@@ -8,6 +8,7 @@ import BottleCardLoader from "../components/BottleCardLoader";
 const baseUrl = process.env.REACT_APP_BACKEND_URL;
 
 const BottleReviewCreation = () => {
+    const navigate = useNavigate();
     const { bottleName } = useParams();
     const [bottle, setBottle] = useState();
     const [isBottle, setIsBottle] = useState(false);
@@ -24,14 +25,27 @@ const BottleReviewCreation = () => {
     const postReview = async (e) => {
         e.preventDefault();
         var review = {
-            BottleId: bottle.Id,
+            BottleId: bottle.id,
             FizzLevel: fizzLevel,
             FunkLevel: funkLevel,
             TasteLevel: tasteLevel,
             OverAllRating: overAllRating,
             Description: comment,
         }
-        console.log(bottle);
+        const response = await fetch(`${baseUrl}/BottleReview`, {
+            method: "POST",
+            headers: {
+                'Accept': "application/json, text/plain",
+                'Content-Type': "application/json;charset=UTF-8"
+            },
+            body: JSON.stringify(review)
+        });
+        
+        if (response.ok) {
+            navigate('/reviews');
+        } else {
+            console.log("Failed submitting review");
+        }
     }
 
     const getBottle = async () => {
