@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
 import StarRating from '../components/StarRating';
 
 const baseUrl = process.env.REACT_APP_BACKEND_URL;
@@ -9,6 +10,13 @@ const BottleReviewCreation = () => {
     const [tasteLevel, setTasteLevel] = useState(1);
     const [overAllRating, setOverAllRating] = useState(1);
 
+    const postReview = async (e) => {
+        e.preventDefault();
+        console.log("fizzLevel: " + fizzLevel);
+        console.log("funkLevel: " + funkLevel);
+        console.log("tasteLevel: " + tasteLevel);
+        console.log("overAllRating: " + overAllRating);
+    }
     return (
         <div className="container-xl align-middle text-center mt-5">
             <form>
@@ -21,6 +29,7 @@ const BottleReviewCreation = () => {
                     <h3>Comments:</h3>
                     <textarea className="form-control w-50 mx-auto" id="description" rows="3"></textarea>
                 </div>
+                <Button variant="primary" onClick={postReview}>Submit review</Button>
             </form>
         </div>
     );
