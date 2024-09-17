@@ -16,7 +16,11 @@ const BottleReviewCreation = () => {
                 <StarRating metric="Fizz level" rating={fizzLevel} setRating={setFizzLevel} />
                 <StarRating metric="Funk level" rating={funkLevel} setRating={setFunkLevel} />
                 <StarRating metric="Taste level" rating={tasteLevel} setRating={setTasteLevel} />
-                <StarRating metric="Overall Rating" rating={overAllRating} setRating={setOverAllRating} />
+                <StarRating metric="Overall rating" rating={overAllRating} setRating={setOverAllRating} />
+                <div className="mb-3">
+                    <h3>Comments:</h3>
+                    <textarea className="form-control w-50 mx-auto" id="description" rows="3"></textarea>
+                </div>
             </form>
         </div>
     );

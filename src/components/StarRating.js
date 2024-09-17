@@ -10,7 +10,7 @@ const StarRating = ({metric, rating, setRating}) => {
 
     return (
         <div className="mb-3 align-items-center">
-            <h2>{metric}:</h2>
+            <h3>{metric}:</h3>
             {[...Array(5)].map((_, index) => {
                 const starValue = index + 1;
 
