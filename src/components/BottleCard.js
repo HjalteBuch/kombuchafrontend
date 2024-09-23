@@ -26,7 +26,7 @@ const BottleCard = ({bottle}) => {
         setShowDatePicker(false);
         const formData = new FormData(document.querySelector(".fermentationDays"));
         const endOfFermentation = formData.get("endOfFermentationDate");
-        const response = await fetch(`${baseUrl}/Bottle/UpdateFermentationDays/${bottleId}`, {
+        const response = await fetch(`${baseUrl}/Bottle/${bottleId}/UpdateFermentationDays`, {
             method: "PUT",
             headers: {
                 'Accept': "application/json, text/plain",
